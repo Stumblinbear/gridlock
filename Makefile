@@ -75,7 +75,7 @@ clean_plugins:
 clean: clean_build clean_release clean_src clean_plugins
 
 
-run: build
+run: clean build
 	./build/$(BINARY)
 
 

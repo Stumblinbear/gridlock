@@ -4,11 +4,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/Stumblinbear/gridlock/api"
-	"github.com/Stumblinbear/gridlock/plugin"
-	"github.com/Stumblinbear/gridlock/sys"
-
 	"github.com/c2h5oh/datasize"
+
+	"github.com/Stumblinbear/gridlock/api"
+	"gridlock/plugin"
+	"gridlock/sys"
 )
 
 var version string
@@ -60,5 +60,5 @@ func main() {
 		panic(err)
 	}
 
-	pm.Initialize()
+	pm.Initialize(&api)
 }

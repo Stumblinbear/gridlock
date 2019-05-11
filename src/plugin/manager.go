@@ -17,7 +17,7 @@ type PluginManager struct {
 	plugins map[string]Plugin
 }
 
-func (pm PluginManager) Initialize() {
+func (pm PluginManager) Initialize(api *api.API) {
 	if pm.initialized {
 		panic("Plugin system already started!")
 	}
@@ -25,7 +25,7 @@ func (pm PluginManager) Initialize() {
 	var wg sync.WaitGroup
 
 	for _, p := range pm.plugins {
-		pm.InitPlugin(&wg, p.ID)
+		pm.InitPlugin(api, p.ID, &wg)
 	}
 
 	log.Println("Waiting for plugins to initialize...")
@@ -92,7 +92,7 @@ func (pm PluginManager) HasPlugin(id string) bool {
 	return ok
 }
 
-func (pm PluginManager) EnablePlugin(wg *sync.WaitGroup, id string) {
+func (pm PluginManager) EnablePlugin(api *api.API, id string, wg *sync.WaitGroup) {
 	if !pm.HasPlugin(id) {
 		panic("Unknown plugin ID!")
 	}
@@ -107,11 +107,11 @@ func (pm PluginManager) EnablePlugin(wg *sync.WaitGroup, id string) {
 
 	// If the plugin manager has already been initialized, this plugin should be immediately started
 	if pm.initialized {
-		pm.InitPlugin(wg, id)
+		pm.InitPlugin(api, id, wg)
 	}
 }
 
-func (pm PluginManager) InitPlugin(wg *sync.WaitGroup, id string) {
+func (pm PluginManager) InitPlugin(api *api.API, id string, wg *sync.WaitGroup) {
 	if !pm.HasPlugin(id) {
 		panic("Unknown plugin ID!")
 	}
@@ -123,7 +123,7 @@ func (pm PluginManager) InitPlugin(wg *sync.WaitGroup, id string) {
 	}
 
 	wg.Add(1)
-	go plugin.Start(wg)
+	go plugin.Start(api, wg)
 }
 
 func NewPluginManager() *PluginManager {

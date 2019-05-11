@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/Stumblinbear/gridlock/api"
 )
 
 var Name string = "UPlay Sync"
@@ -13,7 +15,7 @@ func main() {
 	fmt.Println(Name, "version", Version)
 }
 
-func OnStart() error {
+func OnStart(api *api.API) error {
 	fmt.Println("UPlay OnStart called")
 
 	return nil

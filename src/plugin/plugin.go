@@ -5,6 +5,8 @@ import (
 	"log"
 	"plugin"
 	"sync"
+
+	"github.com/Stumblinbear/gridlock/api"
 )
 
 type PluginStatus byte
@@ -45,7 +47,7 @@ type Plugin struct {
 	ShortDescription string
 	LongDescription  string
 
-	OnStart func() error
+	OnStart func(*api.API) error
 }
 
 func LoadPlugin(id string, file string) (*Plugin, error) {
@@ -103,7 +105,7 @@ func LoadPlugin(id string, file string) (*Plugin, error) {
 	}
 
 	if sym, err := plug.Lookup("OnStart"); err == nil {
-		plugin.OnStart = sym.(func() error)
+		plugin.OnStart = sym.(func(*api.API) error)
 	} else {
 		return nil, errors.New("Plugin does not have a Name field")
 	}
@@ -111,7 +113,7 @@ func LoadPlugin(id string, file string) (*Plugin, error) {
 	return &plugin, nil
 }
 
-func (p Plugin) Start(wg *sync.WaitGroup) error {
+func (p Plugin) Start(api *api.API, wg *sync.WaitGroup) error {
 	defer wg.Done()
 
 	var ret error
@@ -132,7 +134,7 @@ func (p Plugin) Start(wg *sync.WaitGroup) error {
 	p.Status = PluginStarting
 
 	// Call the OnStart() function in the plugin
-	ret = p.OnStart()
+	ret = p.OnStart(api)
 
 	if ret != nil {
 		// If an error was returned, set the status

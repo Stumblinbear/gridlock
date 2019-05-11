@@ -23,7 +23,7 @@ type Host struct {
 type Launcher struct {
 	Name string
 
-	CanStart func(GameQuery) error
+	CanStart func(GameQuery) bool
 
 	// Takes in a game instance and uses it to start the game.
 	StartGame func(GameQuery) error

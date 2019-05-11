@@ -20,10 +20,10 @@ func OnStart(gapi *api.API) error {
 
 	gapi.AddLauncher("parsec", api.Launcher{
 		Name: "Parsec",
-		CanStart: func(gq api.GameQuery) {
+		CanStart: func(gq api.GameQuery) bool {
 			return true
 		},
-		StartGame: func(gq api.GameQuery) {
+		StartGame: func(gq api.GameQuery) error {
 			return nil
 		},
 	})

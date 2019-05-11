@@ -19,8 +19,8 @@ func OnStart(g *api.API) error {
 	fmt.Println("Steam OnStart called")
 
 	g.QueueNotification(api.Notification{
-		Title: "Test",
-		Text: "This is a test",
+		Title: "Steam",
+		Text: "Syncing library...",
 	})
 
 	return nil

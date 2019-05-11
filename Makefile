@@ -15,6 +15,16 @@ PLUGINS := $(subst plugins/,,$(shell find plugins/* -type d))
 all: test_all build_all
 
 
+.PHONY: get
+get:
+	cd src && $(GOGET) -u
+	for p in $(PLUGINS); do \
+		cd plugins/$$p ; \
+		$(GOGET) -u ; \
+		cd ../../ ; \
+	done
+
+
 .PHONY: build_src
 build_src:
 	cd src && $(GOBUILD) -o ../build/$(BINARY) -v -ldflags "-X main.version=$(VERSION)"

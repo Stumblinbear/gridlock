@@ -18,12 +18,18 @@ func main() {
 func OnStart(gapi *api.API) error {
 	fmt.Println("Parsec OnStart called")
 
+	// Only add this launcher if parsec is installed
 	gapi.AddLauncher("parsec", api.Launcher{
 		Name: "Parsec",
 		CanStart: func(gq api.GameQuery) bool {
+			// Ensure parsec exists on the current system
+			// If this launcher was displayed for a remote system, we already know that it has it installed
 			return true
 		},
 		StartGame: func(gq api.GameQuery) error {
+			// If parsec is not started, start it
+			// If query to a remote system, somehow, we should forward the request to the remote system. It should be a blocking call.
+			// Here, we should start up the parsec connection.
 			return nil
 		},
 	})

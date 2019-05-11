@@ -9,6 +9,8 @@ github.com/Stumblinbear/gridlock/api v0.0.0-20190511233447-bffbe3bee94d h1:GOwlZ
 github.com/Stumblinbear/gridlock/api v0.0.0-20190511233447-bffbe3bee94d/go.mod h1:UPK1halMERa/SQVcQC4EG9//iSovnayVSnrgn97cYz8=
 github.com/Stumblinbear/gridlock/api v0.0.0-20190511234454-5aefd3913a88 h1:Uy8VWeEKgVyvWom/bgWcCMms0TlIguhDX37Ad32OlY8=
 github.com/Stumblinbear/gridlock/api v0.0.0-20190511234454-5aefd3913a88/go.mod h1:UPK1halMERa/SQVcQC4EG9//iSovnayVSnrgn97cYz8=
+github.com/Stumblinbear/gridlock/api v0.0.0-20190511234558-39fa0316ab05 h1:/cYhENmTcvM1aQlKu7U+D5L533pm+ZpBwva9iC3O578=
+github.com/Stumblinbear/gridlock/api v0.0.0-20190511234558-39fa0316ab05/go.mod h1:UPK1halMERa/SQVcQC4EG9//iSovnayVSnrgn97cYz8=
 github.com/c2h5oh/datasize v0.0.0-20171227191756-4eba002a5eae h1:2Zmk+8cNvAGuY8AyvZuWpUdpQUAXwfom4ReVMe/CTIo=
 github.com/c2h5oh/datasize v0.0.0-20171227191756-4eba002a5eae/go.mod h1:S/7n9copUssQ56c7aAgHqftWO4LTf4xY6CGWt8Bc+3M=
 github.com/denisbrodbeck/machineid v1.0.1 h1:geKr9qtkB876mXguW2X6TU4ZynleN6ezuMSRhl4D7AQ=

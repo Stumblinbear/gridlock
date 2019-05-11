@@ -7,7 +7,7 @@ import (
 	"github.com/shirou/gopsutil/mem"
 )
 
-type SystemInfo struct {
+type Info struct {
 	ID string
 
 	Hostname string
@@ -34,7 +34,7 @@ type RAMInfo struct {
 	Used  uint64
 }
 
-func GetSystemInfo() (*SystemInfo, error) {
+func GetInfo() (Info, error) {
 	defer func() {
 		err := recover()
 		if err != nil {
@@ -62,7 +62,7 @@ func GetSystemInfo() (*SystemInfo, error) {
 		panic(err)
 	}
 
-	return &SystemInfo{
+	return Info{
 		ID:       id,
 		Hostname: hostinfo.Hostname,
 

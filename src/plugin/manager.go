@@ -11,13 +11,20 @@ import (
 	"github.com/Stumblinbear/gridlock/api"
 )
 
-type PluginManager struct {
+type Manager struct {
 	initialized bool
 
 	plugins map[string]Plugin
 }
 
-func (pm PluginManager) Initialize(api *api.API) {
+func NewManager() Manager {
+	return Manager{
+		initialized: false,
+		plugins:     make(map[string]Plugin),
+	}
+}
+
+func (pm Manager) Initialize(gapi *api.API) {
 	if pm.initialized {
 		panic("Plugin system already started!")
 	}
@@ -25,7 +32,7 @@ func (pm PluginManager) Initialize(api *api.API) {
 	var wg sync.WaitGroup
 
 	for _, p := range pm.plugins {
-		pm.InitPlugin(api, p.ID, &wg)
+		pm.InitPlugin(gapi, p.ID, &wg)
 	}
 
 	log.Println("Waiting for plugins to initialize...")
@@ -39,7 +46,7 @@ func (pm PluginManager) Initialize(api *api.API) {
 This will search for changes in the plugins folder
 and apply them to the plugin manager.
 */
-func (pm PluginManager) RefreshPlugins(api *api.API) error {
+func (pm Manager) RefreshPlugins() error {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
 		return err
@@ -86,51 +93,42 @@ func (pm PluginManager) RefreshPlugins(api *api.API) error {
 	return nil
 }
 
-func (pm PluginManager) HasPlugin(id string) bool {
+func (pm Manager) HasPlugin(id string) bool {
 	_, ok := pm.plugins[id]
 
 	return ok
 }
 
-func (pm PluginManager) EnablePlugin(api *api.API, id string, wg *sync.WaitGroup) {
+func (pm Manager) EnablePlugin(gapi *api.API, id string, wg *sync.WaitGroup) {
 	if !pm.HasPlugin(id) {
 		panic("Unknown plugin ID!")
 	}
 
 	plugin := pm.plugins[id]
 
-	if plugin.Status != PluginDisabled {
+	if plugin.Status != Disabled {
 		panic("Plugin is already enabled!")
 	}
 
-	plugin.Status = PluginEnabled
+	plugin.Status = Enabled
 
 	// If the plugin manager has already been initialized, this plugin should be immediately started
 	if pm.initialized {
-		pm.InitPlugin(api, id, wg)
+		pm.InitPlugin(gapi, id, wg)
 	}
 }
 
-func (pm PluginManager) InitPlugin(api *api.API, id string, wg *sync.WaitGroup) {
+func (pm Manager) InitPlugin(gapi *api.API, id string, wg *sync.WaitGroup) {
 	if !pm.HasPlugin(id) {
 		panic("Unknown plugin ID!")
 	}
 
 	plugin := pm.plugins[id]
 
-	if plugin.Status != PluginDisabled {
+	if plugin.Status != Disabled {
 		panic("Plugin can only be started when in the disabled state!")
 	}
 
 	wg.Add(1)
-	go plugin.Start(api, wg)
-}
-
-func NewPluginManager() *PluginManager {
-	manager := PluginManager{
-		initialized: false,
-		plugins:     make(map[string]Plugin),
-	}
-
-	return &manager
+	go plugin.Start(gapi, wg)
 }

@@ -6,8 +6,6 @@ import (
 
 	"github.com/c2h5oh/datasize"
 
-	"github.com/Stumblinbear/gridlock/api"
-	"gridlock/plugin"
 	"gridlock/sys"
 )
 
@@ -27,7 +25,7 @@ func main() {
 
 	log.Println("Fetching system information...")
 
-	info, err := sys.GetSystemInfo()
+	info, err := sys.GetInfo()
 	if err != nil {
 		panic(err)
 	}
@@ -51,14 +49,7 @@ func main() {
 
 	log.Println("")
 
-	pm := plugin.NewPluginManager()
+	g := NewGridlock(info)
 
-	api := api.Create()
-	
-	err = pm.RefreshPlugins(&api)
-	if err != nil {
-		panic(err)
-	}
-
-	pm.Initialize(&api)
+	g.RunForever()
 }

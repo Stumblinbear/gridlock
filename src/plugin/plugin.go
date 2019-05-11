@@ -9,35 +9,34 @@ import (
 	"github.com/Stumblinbear/gridlock/api"
 )
 
-type PluginStatus byte
+type Status byte
 
 const (
-	PluginDisabled    PluginStatus = 0
-	PluginEnabled     PluginStatus = 1
-	PluginStarting    PluginStatus = 2
-	PluginInitialized PluginStatus = 3
-	PluginError       PluginStatus = 4
+	Disabled Status = iota
+	Enabled
+	Starting
+	Initialized
+	Error
 )
 
-func (s PluginStatus) Name() string {
-	switch s {
-	case 0:
-		return "disabled"
-	case 1:
-		return "starting"
-	case 2:
-		return "enabled"
-	case 3:
-		return "initialized"
-	case 4:
-		return "error"
-	}
+var statuses = map[Status]string{
+	Disabled:    "DISABLED",
+	Enabled:     "ENABLED",
+	Starting:    "STARTING",
+	Initialized: "INITIALIZED",
+	Error:       "ERROR",
+}
 
-	return "invalid"
+// String prints the string version of the Op consts
+func (e Status) String() string {
+	if status, found := statuses[e]; found {
+		return status
+	}
+	return "???"
 }
 
 type Plugin struct {
-	Status PluginStatus
+	Status Status
 	IsGone bool
 
 	ID               string
@@ -121,7 +120,7 @@ func (p Plugin) Start(api *api.API, wg *sync.WaitGroup) error {
 	defer func() {
 		// If the plugin panics, we should return an error, rather than crashing everything
 		if err := recover(); err != nil {
-			p.Status = PluginError
+			p.Status = Error
 			_, ok := err.(error)
 			if !ok {
 				panic("Returned type is not an error!")
@@ -131,17 +130,17 @@ func (p Plugin) Start(api *api.API, wg *sync.WaitGroup) error {
 		}
 	}()
 
-	p.Status = PluginStarting
+	p.Status = Starting
 
 	// Call the OnStart() function in the plugin
 	ret = p.OnStart(api)
 
 	if ret != nil {
 		// If an error was returned, set the status
-		p.Status = PluginError
+		p.Status = Error
 	} else {
 		// Otherwise, it enabled successfully
-		p.Status = PluginInitialized
+		p.Status = Initialized
 	}
 
 	return ret

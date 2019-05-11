@@ -15,10 +15,10 @@ func main() {
 	fmt.Println(Name, "version", Version)
 }
 
-func OnStart(g *api.API) error {
+func OnStart(gapi *api.API) error {
 	fmt.Println("Steam OnStart called")
 
-	g.QueueNotification(api.Notification{
+	go gapi.QueueNotification(api.Notification{
 		Title: "Steam",
 		Text: "Syncing library...",
 	})

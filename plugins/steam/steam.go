@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/Stumblinbear/gridlock"
 )
 
 var Name string = "Steam Sync"
@@ -13,7 +15,7 @@ func main() {
 	fmt.Println(Name, "version", Version)
 }
 
-func OnStart(api *api.API) error {
+func OnStart() error {
 	fmt.Println("Steam OnStart called")
 
 	return nil

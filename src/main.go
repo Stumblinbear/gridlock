@@ -55,7 +55,7 @@ func main() {
 
 	api := api.Create()
 	
-	err = pm.RefreshPlugins(api)
+	err = pm.RefreshPlugins(&api)
 	if err != nil {
 		panic(err)
 	}

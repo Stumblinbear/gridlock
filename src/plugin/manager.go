@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+
+	"gridlock/api"
 )
 
 type PluginManager struct {
@@ -37,7 +39,7 @@ func (pm PluginManager) Initialize() {
 This will search for changes in the plugins folder
 and apply them to the plugin manager.
 */
-func (pm PluginManager) RefreshPlugins() error {
+func (pm PluginManager) RefreshPlugins(api *api.API) error {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
 		return err

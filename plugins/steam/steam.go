@@ -18,6 +18,10 @@ func main() {
 func OnStart(gapi *api.API) error {
 	fmt.Println("Steam OnStart called")
 
+	gapi.MetadataFetcher("Steam", func(name string) api.Metadata {
+		return api.Metadata{}
+	})
+
 	go gapi.QueueNotification(api.Notification{
 		Title: "Steam",
 		Text: "Syncing library...",

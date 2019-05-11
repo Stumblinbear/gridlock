@@ -1,0 +1,105 @@
+package api
+
+// A host is the machine that physically contains a game.
+// This can be the local machine or a remote one.
+type Host struct {
+	// If the host is a remote machine
+	Remote bool `json:"remote"`
+
+	System SystemInfo `json:"system"`
+
+	// The key of this map is the platform ID that launches this game.
+	//
+	// For example: steam, uplay, ps4, nintendo64, etc
+	Libraries map[string](map[string]GameInstance) `json:"libraries"`
+
+	Launchers map[string]Launcher
+}
+
+type Launcher struct {
+	Name string
+
+	CanStart func(Host, GameInstance) error
+
+	// Takes in a game instance and uses it to start the game.
+	//
+	// If this is a remote host, then it queries the gridlock instance on it to start
+	// the game, then it connects to the system using a defined streaming service.
+	StartGame func(Host, GameInstance) error
+}
+
+//
+type GameInstance struct {
+	Source     string `json:"source"`
+	Installed  bool   `json:"installed"`
+	Directory  string `json:"directory"`
+	LastPlayed int64  `json:"lastPlayed"`
+	TimePlayed int    `json:"timePlayed"`
+	PlayCount  int    `json:"playCount"`
+}
+
+// A platform is the type of system that the game is run on.
+// A library is defined as a list of games that run on a single platform.
+// Therefore, of you have a steam library and a uplay library, then you
+// will have two platforms.
+//
+// For example: PC, Steam, Xbox, PlayStation 4, Nintendo 64, etc
+type Platform struct {
+	// URL to an icon for the platform
+	Icon string `json:"icon"`
+
+	Name string `json:"name"`
+
+	// Takes in a game instance and uses it to start the game immediately.
+	// This one doesn't understand the concept of
+	SpawnGame func(GameInstance) error
+}
+
+type GameQuery struct {
+	// The host that the game is starting on
+	HostId string `json:"hostId"`
+
+	// The launcher that's starting the game
+	LauncherId string `json:"launcherId"`
+
+	// The platform that launches the game
+	PlatformId string `json:"platformId"`
+
+	// The ID of the game that's being started
+	GameID string `json:"gameId"`
+}
+
+// Contains the metadata information for games registered to the system.
+type Metadata struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Version     string `json:"version"`
+
+	Rating byte   `json:"rating"`
+	Region string `json:"region"`
+
+	Genre     string   `json:"genre"`
+	Developer string   `json:"developer"`
+	Year      int8     `json:"year"`
+	Tags      []string `json:"tags"`
+	Links     []string `json:"links"`
+
+	News []string `json:"news"`
+
+	Score MetadataScore `json:"score"`
+	Art   MetadataArt   `json:"art"`
+}
+
+// How each category rated the game
+type MetadataScore struct {
+	User      int8 `json:"user"`
+	Critic    int8 `json:"critic"`
+	Community int8 `json:"community"`
+}
+
+// Art assets should be in the form of URLs.
+type MetadataArt struct {
+	Icon       string `json:"icon"`
+	Cover      string `json:"cover"`
+	Background string `json:"background"`
+}

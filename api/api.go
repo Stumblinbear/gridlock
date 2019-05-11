@@ -1,17 +1,22 @@
 package api
 
 type API struct {
-	notify chan Notification // Sends notifications out to anyone connected to the websocket
-}
+	// Add a remote host to the system
+	AddHost func(string, Host)
 
-func Create() API {
-	api := API{
-		notify: make(chan Notification),
-	}
+	// Remove a remote host from the system
+	RemoveHost func(string)
 
-	return api
-}
+	// A launcher tells the system how to start a remote game. This is
+	// used
+	AddLauncher func(string, Launcher)
 
-func (api API) QueueNotification(notif Notification) {
-	api.notify <- notif
+	// A platform
+	AddPlatform func(string, Launcher)
+
+	// May change. At the moment, a "fetcher" takes in a game name and
+	// outputs a metadata struct.
+	AddMetadataFetcher func(string, func(string) Metadata)
+
+	QueueNotification func(Notification)
 }

@@ -1,40 +1,15 @@
-package sys
+package gridlock
 
 import (
 	"github.com/denisbrodbeck/machineid"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
+
+	"github.com/Stumblinbear/gridlock/api"
 )
 
-type Info struct {
-	ID string
-
-	Hostname string
-
-	Platform PlatformInfo
-
-	CPU CPUInfo
-	RAM RAMInfo
-}
-
-type PlatformInfo struct {
-	ID      string
-	Name    string
-	Version string
-}
-
-type CPUInfo struct {
-	Name string
-}
-
-type RAMInfo struct {
-	Total uint64
-	Free  uint64
-	Used  uint64
-}
-
-func GetInfo() (Info, error) {
+func GetSystemInfo() (api.SystemInfo, error) {
 	defer func() {
 		err := recover()
 		if err != nil {
@@ -62,20 +37,20 @@ func GetInfo() (Info, error) {
 		panic(err)
 	}
 
-	return Info{
+	return api.SystemInfo{
 		ID:       id,
 		Hostname: hostinfo.Hostname,
 
-		Platform: PlatformInfo{
+		Platform: api.PlatformInfo{
 			ID:      hostinfo.OS,
 			Name:    hostinfo.Platform,
 			Version: hostinfo.PlatformVersion,
 		},
 
-		CPU: CPUInfo{
+		CPU: api.CPUInfo{
 			Name: cpuinfo[0].ModelName,
 		},
-		RAM: RAMInfo{
+		RAM: api.RAMInfo{
 			Total: meminfo.Total,
 			Free:  meminfo.Free,
 			Used:  meminfo.Used,

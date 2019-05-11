@@ -5,7 +5,7 @@ GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 
-BINARY := gridlock
+BINARY := gridlockd
 VERSION ?= 0.0.0
 PLATFORMS := windows linux darwin
 os = $(word 1, $@)
@@ -27,7 +27,7 @@ get:
 
 .PHONY: build_src
 build_src:
-	cd src && $(GOBUILD) -o ../build/$(BINARY) -v -ldflags "-X main.version=$(VERSION)"
+	cd src/cmd/gridlockd && $(GOBUILD) -o ../../../build/$(BINARY) -v -ldflags "-X main.version=$(VERSION)"
 
 # Build things in the plugins folder
 .PHONY: build_plugins

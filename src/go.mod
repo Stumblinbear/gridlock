@@ -1,4 +1,4 @@
-module gridlock
+module github.com/Stumblinbear/gridlock
 
 go 1.12
 

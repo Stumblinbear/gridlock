@@ -15,7 +15,7 @@ func main() {
 	fmt.Println(Name, "version", Version)
 }
 
-func OnStart(api *api.API) error {
+func OnStart(g *api.API) error {
 	fmt.Println("UPlay OnStart called")
 
 	return nil

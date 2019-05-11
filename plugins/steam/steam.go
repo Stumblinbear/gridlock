@@ -15,8 +15,13 @@ func main() {
 	fmt.Println(Name, "version", Version)
 }
 
-func OnStart(api *api.API) error {
+func OnStart(g *api.API) error {
 	fmt.Println("Steam OnStart called")
+
+	g.QueueNotification(api.Notification{
+		Title: "Test",
+		Text: "This is a test",
+	})
 
 	return nil
 }

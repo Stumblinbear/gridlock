@@ -15,7 +15,7 @@ func main() {
 	fmt.Println(Name, "version", Version)
 }
 
-func OnStart() error {
+func OnStart(api *api.API) error {
 	fmt.Println("Steam OnStart called")
 
 	return nil

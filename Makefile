@@ -17,7 +17,7 @@ all: test_all build_all
 
 .PHONY: build_gridlock
 build_gridlock:
-	cd gridlock && $(GOBUILD) -o ../build/$(BINARY) -v -ldflags "-X main.version=$(VERSION)"
+	$(GOBUILD) -o ../build/$(BINARY) -v -ldflags "-X main.version=$(VERSION)"
 
 # Build things in the plugins folder
 .PHONY: build_plugins
@@ -33,7 +33,7 @@ build: build_gridlock build_plugins
 
 
 test_gridlock:
-	cd gridlock && $(GOTEST) -v ./...
+	$(GOTEST) -v ./...
 
 # Test things in the plugins folder
 test_plugins:
@@ -49,7 +49,7 @@ test: test_gridlock test_plugins
 # Go clean gridlock folder
 .PHONY: clean_gridlock
 clean_gridlock:
-	cd gridlock && $(GOCLEAN)
+	$(GOCLEAN)
 
 # Clear the build/ folder
 .PHONY: clean_build
@@ -82,7 +82,7 @@ run: build
 .PHONY: $(PLATFORMS)
 $(PLATFORMS):
 	mkdir -p release
-	cd gridlock && GOOS=$(os) GOARCH=amd64 go build -o ../release/$(BINARY)-v$(VERSION)-$(os)-amd64 -ldflags "-X main.version=$(VERSION)"
+	GOOS=$(os) GOARCH=amd64 go build -o ../release/$(BINARY)-v$(VERSION)-$(os)-amd64 -ldflags "-X main.version=$(VERSION)"
 
 .PHONY: release
 release: windows linux darwin

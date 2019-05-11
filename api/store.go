@@ -13,19 +13,20 @@ type Host struct {
 	// For example: steam, uplay, ps4, nintendo64, etc
 	Libraries map[string](map[string]GameInstance) `json:"libraries"`
 
-	Launchers map[string]Launcher
+	Launchers map[string]Launcher `json:"launchers"`
 }
 
+// A launcher is responsible for the entire process of setting up a game.
+// For example, if using a remote streaming service, then the launcher should
+// forward the request to the remote machine's platform, then start up the
+// streaming system.
 type Launcher struct {
 	Name string
 
-	CanStart func(Host, GameInstance) error
+	CanStart func(GameQuery) error
 
 	// Takes in a game instance and uses it to start the game.
-	//
-	// If this is a remote host, then it queries the gridlock instance on it to start
-	// the game, then it connects to the system using a defined streaming service.
-	StartGame func(Host, GameInstance) error
+	StartGame func(GameQuery) error
 }
 
 //
@@ -55,6 +56,7 @@ type Platform struct {
 	SpawnGame func(GameInstance) error
 }
 
+// All the information needed to start a game.
 type GameQuery struct {
 	// The host that the game is starting on
 	HostId string `json:"hostId"`

@@ -7,8 +7,7 @@ type API struct {
 	// Remove a remote host from the system
 	RemoveHost func(string)
 
-	// A launcher tells the system how to start a remote game. This is
-	// used
+	// A launcher tells the system how to start a remote game.
 	AddLauncher func(string, Launcher)
 
 	// A platform

@@ -18,7 +18,7 @@ func main() {
 func OnStart(gapi *api.API) error {
 	fmt.Println("Steam OnStart called")
 
-	gapi.MetadataFetcher("Steam", func(name string) api.Metadata {
+	gapi.AddMetadataFetcher("Steam", func(name string) api.Metadata {
 		return api.Metadata{}
 	})
 

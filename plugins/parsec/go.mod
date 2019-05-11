@@ -1,4 +1,4 @@
-module uplay
+module parsec
 
 go 1.12
 

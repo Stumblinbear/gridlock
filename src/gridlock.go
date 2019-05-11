@@ -23,7 +23,7 @@ type Gridlock struct {
 	Store Store
 
 	// Sends notifications out to anyone connected to the websocket
-	notify chan Notification
+	notify chan api.Notification
 }
 
 type Store struct {
@@ -73,7 +73,7 @@ func NewGridlock() *Gridlock {
 			
 		},
 
-		store: Store{
+		Store: Store{
 			Hosts: map[string]api.Host{
 				"self": api.Host{
 					Remote: false,

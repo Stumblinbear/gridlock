@@ -15,9 +15,9 @@ PLUGINS := $(subst plugins/,,$(shell find plugins/* -type d))
 all: test_all build_all
 
 
-.PHONY: build_gridlock
-build_gridlock:
-	$(GOBUILD) -o ../build/$(BINARY) -v -ldflags "-X main.version=$(VERSION)"
+.PHONY: build_src
+build_src:
+	cd src && $(GOBUILD) -o ../build/$(BINARY) -v -ldflags "-X main.version=$(VERSION)"
 
 # Build things in the plugins folder
 .PHONY: build_plugins
@@ -29,11 +29,11 @@ build_plugins:
 	done
 
 .PHONY: build
-build: build_gridlock build_plugins
+build: build_src build_plugins
 
 
-test_gridlock:
-	$(GOTEST) -v ./...
+test_src:
+	cd src && $(GOTEST) -v ./...
 
 # Test things in the plugins folder
 test_plugins:
@@ -43,13 +43,13 @@ test_plugins:
 		cd ../../ ; \
 	done
 
-test: test_gridlock test_plugins
+test: test_src test_plugins
 
 
-# Go clean gridlock folder
-.PHONY: clean_gridlock
-clean_gridlock:
-	$(GOCLEAN)
+# Go clean src folder
+.PHONY: clean_src
+clean_src:
+	cd src && $(GOCLEAN)
 
 # Clear the build/ folder
 .PHONY: clean_build
@@ -72,7 +72,7 @@ clean_plugins:
 
 # Clear everything
 .PHONY: clean
-clean: clean_build clean_release clean_gridlock clean_plugins
+clean: clean_build clean_release clean_src clean_plugins
 
 
 run: build
@@ -82,7 +82,7 @@ run: build
 .PHONY: $(PLATFORMS)
 $(PLATFORMS):
 	mkdir -p release
-	GOOS=$(os) GOARCH=amd64 go build -o ../release/$(BINARY)-v$(VERSION)-$(os)-amd64 -ldflags "-X main.version=$(VERSION)"
+	cd src && GOOS=$(os) GOARCH=amd64 go build -o ../release/$(BINARY)-v$(VERSION)-$(os)-amd64 -ldflags "-X main.version=$(VERSION)"
 
 .PHONY: release
 release: windows linux darwin

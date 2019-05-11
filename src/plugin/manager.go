@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"gridlock/api"
+	"github.com/Stumblinbear/gridlock/api"
 )
 
 type PluginManager struct {

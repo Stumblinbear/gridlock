@@ -4,9 +4,9 @@ import (
 	"log"
 	"os"
 
-	"gridlock/api"
-	"gridlock/plugin"
-	"gridlock/sys"
+	"github.com/Stumblinbear/gridlock/api"
+	"github.com/Stumblinbear/gridlock/plugin"
+	"github.com/Stumblinbear/gridlock/sys"
 
 	"github.com/c2h5oh/datasize"
 )

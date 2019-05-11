@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/Stumblinbear/gridlock"
+	"github.com/Stumblinbear/gridlock/api"
 )
 
 var Name string = "Steam Sync"

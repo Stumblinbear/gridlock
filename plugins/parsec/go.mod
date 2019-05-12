@@ -2,4 +2,4 @@ module parsec
 
 go 1.12
 
-require github.com/Stumblinbear/gridlock/api v0.0.0-20190512013635-408f36512deb
+require github.com/Stumblinbear/gridlock/api v0.0.0-20190512013806-dd45e0b293a0

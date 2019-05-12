@@ -98,6 +98,8 @@ func NewGridlock() *Gridlock {
 
 	g.api.AddLauncher("direct", api.Launcher{
 		Name: "Direct",
+		Description: "Launch the game on this machine.",
+
 		CanStart: func(gq api.GameQuery) bool {
 			return true
 		},

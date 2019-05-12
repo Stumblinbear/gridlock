@@ -29,6 +29,8 @@ type Platform struct {
 
 	Name string `json:"name"`
 
+	Description string `json:"description"`
+
 	// List of games available on this platform
 	Games map[string]GameInstance `json:"games"`
 

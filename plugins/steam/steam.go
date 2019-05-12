@@ -20,6 +20,7 @@ func OnStart(gapi *api.API) error {
 
 	gapi.AddPlatform(api.Platform{
 		Name: "Steam",
+		Description: "Your Steam library",
 	})
 
 	//gapi.AddGame()

@@ -137,7 +137,7 @@ func (g Gridlock) AddEndpoint(path string, cb Callback) {
 		w.WriteHeader(status)
 
 		if payload != nil {
-			payload, err := json.Marshal(payload)
+			payload, err := json.MarshalIndent(payload, "", "  ")
 
 			if err != nil {
 				panic(err)

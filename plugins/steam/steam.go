@@ -18,8 +18,15 @@ func main() {
 func OnStart(gapi *api.API) error {
 	fmt.Println("Steam OnStart called")
 
-	gapi.AddMetadataFetcher("Steam", func(name string) api.Metadata {
-		return api.Metadata{}
+	gapi.AddPlatform(api.Platform{
+		Name: "Steam",
+	})
+
+	gapi.AddMetadataResolver(api.MetadataResolver{
+		Name: "Steam",
+		Resolve: func(name string) api.Metadata {
+			return api.Metadata{}
+		},
 	})
 
 	go gapi.QueueNotification(api.Notification{

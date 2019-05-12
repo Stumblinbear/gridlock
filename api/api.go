@@ -7,15 +7,18 @@ type API struct {
 	// Remove a remote host from the system
 	RemoveHost func(string)
 
-	// A launcher tells the system how to start a remote game.
-	AddLauncher func(string, Launcher)
+	// Add a platform to the system
+	AddPlatform func(Platform)
 
-	// A platform
-	AddPlatform func(string, Launcher)
+	// Add a game to the system
+	AddGame func(GameInstance)
 
-	// May change. At the moment, a "fetcher" takes in a game name and
+	// A launcher tells the system how to start a game
+	AddLauncher func(Launcher)
+
+	// May change. At the moment, a resolver takes in a game name and
 	// outputs a metadata struct.
-	AddMetadataFetcher func(string, func(string) Metadata)
+	AddMetadataResolver func(MetadataResolver)
 
 	QueueNotification func(Notification)
 }

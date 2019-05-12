@@ -17,24 +17,28 @@ type Host struct {
 	Launchers map[string]Launcher `json:"launchers"`
 }
 
-// A launcher is responsible for the entire process of setting up a game.
-// For example, if using a remote streaming service, then the launcher should
-// forward the request to the remote machine's platform, then start up the
-// streaming system.
-type Launcher struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+// A platform is the type of system that the game is run on.
+// A library is defined as a list of games that run on a single platform.
+// Therefore, of you have a steam library and a uplay library, then you
+// will have two platforms.
+//
+// For example: PC, Steam, Xbox, PlayStation 4, Nintendo 64, etc
+type Platform struct {
+	// URL to an icon for the platform
+	Icon string `json:"icon"`
 
-	// If the launcher is required on both systems
-	Require bool `json:"require"`
+	Name string `json:"name"`
 
-	CanStart func(GameQuery) bool `json:"-"`
-
-	// Takes in a game instance and uses it to start the game.
-	StartGame func(GameQuery) error `json:"-"`
+	// Takes in a game instance and uses it to start the game immediately.
+	// This one doesn't understand the concept of
+	SpawnGame func(GameInstance) error
 }
 
 type GameInstance struct {
+	// Used to categorize the game into the system, but is discarded afterwards
+	Platform string `json:"-"`
+	Name     string `json:"-"`
+
 	// If the game is installed
 	Installed bool `json:"installed"`
 
@@ -51,21 +55,22 @@ type GameInstance struct {
 	PlayCount int `json:"playCount"`
 }
 
-// A platform is the type of system that the game is run on.
-// A library is defined as a list of games that run on a single platform.
-// Therefore, of you have a steam library and a uplay library, then you
-// will have two platforms.
-//
-// For example: PC, Steam, Xbox, PlayStation 4, Nintendo 64, etc
-type Platform struct {
-	// URL to an icon for the platform
-	Icon string `json:"icon"`
+// A launcher is responsible for the entire process of setting up a game.
+// For example, if using a remote streaming service, then the launcher should
+// forward the request to the remote machine's platform, then start up the
+// streaming system.
+type Launcher struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
 
-	Name string `json:"name"`
+	// If the launcher is required on both systems
+	Require bool `json:"require"`
 
-	// Takes in a game instance and uses it to start the game immediately.
-	// This one doesn't understand the concept of
-	SpawnGame func(GameInstance) error
+	// If the game can be started using this launcher
+	CanStart func(GameQuery) bool `json:"-"`
+
+	// Takes in a game instance and uses it to start the game.
+	StartGame func(GameQuery) error `json:"-"`
 }
 
 // All the information needed to start a game.
@@ -116,4 +121,10 @@ type MetadataArt struct {
 	Icon       string `json:"icon"`
 	Cover      string `json:"cover"`
 	Background string `json:"background"`
+}
+
+type MetadataResolver struct {
+	Name string
+
+	Resolve func(string) Metadata
 }

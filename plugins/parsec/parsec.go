@@ -19,7 +19,7 @@ func OnStart(gapi *api.API) error {
 	fmt.Println("Parsec OnStart called")
 
 	// Only add this launcher if parsec is installed
-	gapi.AddLauncher("parsec", api.Launcher{
+	gapi.AddLauncher(api.Launcher{
 		Name: "Parsec",
 		Description: "Launch game and stream it through Parsec.",
 		

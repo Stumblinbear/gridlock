@@ -34,14 +34,21 @@ type Launcher struct {
 	StartGame func(GameQuery) error `json:"-"`
 }
 
-//
 type GameInstance struct {
-	Source     string `json:"source"`
-	Installed  bool   `json:"installed"`
-	Directory  string `json:"directory"`
-	LastPlayed int64  `json:"lastPlayed"`
-	TimePlayed int    `json:"timePlayed"`
-	PlayCount  int    `json:"playCount"`
+	// If the game is installed
+	Installed bool `json:"installed"`
+
+	// The install directory of the game (some platforms may not need this)
+	Directory string `json:"directory"`
+
+	// The last time the user played the game
+	LastPlayed int64 `json:"lastPlayed"`
+
+	// The total time the user played the game
+	TimePlayed int `json:"timePlayed"`
+
+	// The amount of times the user played the game
+	PlayCount int `json:"playCount"`
 }
 
 // A platform is the type of system that the game is run on.

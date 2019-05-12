@@ -29,11 +29,11 @@ type Gridlock struct {
 
 type Store struct {
 	// The current machine is always named "self"
-	Hosts map[string]api.Host `json:"hosts"`
+	Hosts map[string]*api.Host `json:"hosts"`
 
-	Platforms map[string]api.Platform `json:"platforms"`
+	Platforms map[string]*api.Platform `json:"platforms"`
 
-	Metadata map[string]api.Metadata `json:"metadata"`
+	Metadata map[string]*api.Metadata `json:"metadata"`
 }
 
 func NewGridlock() *Gridlock {
@@ -65,30 +65,50 @@ func NewGridlock() *Gridlock {
 
 	log.Println("")
 
+	self := api.Host{
+		Remote: false,
+		System: system,
+
+		Libraries: map[string](map[string]api.GameInstance) {
+			"steam": map[string]api.GameInstance{
+				"for-honor": api.GameInstance{},
+			},
+		},
+		Launchers: []string{},
+	}
+
 	g := Gridlock{
 		router: mux.NewRouter().StrictSlash(true),
 
 		pm: plugin.NewManager(),
 
+		launchers: make(map[string]*api.Launcher),
 		Store: Store{
-			Hosts: map[string]api.Host{
-				"self": api.Host{
-					Remote: false,
-					System: system,
-
-					Libraries: make(map[string](map[string]api.GameInstance)),
-					Launchers: []string,
-				},
+			Hosts: map[string]*api.Host{
+				"self": &self,
 			},
+			Platforms: map[string]*api.Platform{},
+			Metadata: map[string]*api.Metadata{},
 		},
 	}
 
 	g.api = api.API{
 		AddLauncher: func(name string, l api.Launcher) {
 			g.launchers[name] = &l
-			g.Store.Hosts["self"].Launchers = append(g.Store.Hosts["self"].Launchers, name)
+			self.Launchers = append(self.Launchers, name)
 		},
 	}
+
+	g.api.AddLauncher("direct", api.Launcher{
+		Name: "Direct",
+		CanStart: func(gq api.GameQuery) bool {
+			return true
+		},
+		StartGame: func(gq api.GameQuery) error {
+			// Poke the platform to start the game directly
+			return nil
+		},
+	})
 
 	return &g
 }
@@ -118,8 +138,6 @@ func (g Gridlock) AddEndpoint(path string, cb Callback) {
 		w.WriteHeader(status)
 
 		if payload != nil {
-			log.Println(g.Store.Hosts["self"])
-
 			payload, err := json.Marshal(payload)
 
 			if err != nil {

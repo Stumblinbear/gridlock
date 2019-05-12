@@ -1,6 +1,8 @@
 package gridlock
 
 import (
+	"net"
+
 	"github.com/denisbrodbeck/machineid"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/host"
@@ -41,6 +43,9 @@ func GetSystemInfo() (api.SystemInfo, error) {
 		ID:       id,
 		Hostname: hostinfo.Hostname,
 
+		// Should I include websocket port?
+		Address: GetOutboundIP().String(),
+
 		Platform: api.PlatformInfo{
 			ID:      hostinfo.OS,
 			Name:    hostinfo.Platform,
@@ -56,4 +61,16 @@ func GetSystemInfo() (api.SystemInfo, error) {
 			Used:  meminfo.Used,
 		},
 	}, nil
+}
+
+func GetOutboundIP() net.IP {
+    conn, err := net.Dial("udp", "8.8.8.8:80")
+    if err != nil {
+        panic(err)
+    }
+    defer conn.Close()
+
+    localAddr := conn.LocalAddr().(*net.UDPAddr)
+
+    return localAddr.IP
 }

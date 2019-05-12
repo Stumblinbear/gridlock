@@ -20,6 +20,7 @@ type Gridlock struct {
 	pm plugin.Manager
 	api api.API // Should I create an API struct for each plugin?
 
+	launchers map[string]*api.Launcher
 	Store Store
 
 	// Sends notifications out to anyone connected to the websocket
@@ -69,17 +70,23 @@ func NewGridlock() *Gridlock {
 
 		pm: plugin.NewManager(),
 
-		api: api.API{
-			
-		},
-
 		Store: Store{
 			Hosts: map[string]api.Host{
 				"self": api.Host{
 					Remote: false,
 					System: system,
+
+					Launchers: make(map[string]api.Launcher),
+					Libraries: make(map[string](map[string]api.GameInstance)),
 				},
 			},
+		},
+	}
+
+	g.api = api.API{
+		AddLauncher: func(name string, l api.Launcher) {
+			g.launchers[name] = &l
+			g.Store.Hosts["self"].Launchers = append(g.Store.Hosts["self"].Launchers, name)
 		},
 	}
 
@@ -111,7 +118,15 @@ func (g Gridlock) AddEndpoint(path string, cb Callback) {
 		w.WriteHeader(status)
 
 		if payload != nil {
-			json.NewEncoder(w).Encode(payload)
+			log.Println(g.Store.Hosts["self"])
+
+			payload, err := json.Marshal(payload)
+
+			if err != nil {
+				panic(err)
+			}
+	
+			w.Write(payload)
 		}
 	})
 }

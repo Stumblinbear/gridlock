@@ -13,7 +13,10 @@ type Host struct {
 	// For example: steam, uplay, ps4, nintendo64, etc
 	Libraries map[string](map[string]GameInstance) `json:"libraries"`
 
-	Launchers map[string]Launcher `json:"launchers"`
+	// List of launchers supported by this host
+	//
+	// Note: Currently, both hosts MUST have the same launcher plugin installed
+	Launchers []string `json:"launchers"`
 }
 
 // A launcher is responsible for the entire process of setting up a game.
@@ -21,12 +24,12 @@ type Host struct {
 // forward the request to the remote machine's platform, then start up the
 // streaming system.
 type Launcher struct {
-	Name string
+	Name string `json:"name"`
 
-	CanStart func(GameQuery) bool
+	CanStart func(GameQuery) bool `json:"-"`
 
 	// Takes in a game instance and uses it to start the game.
-	StartGame func(GameQuery) error
+	StartGame func(GameQuery) error `json:"-"`
 }
 
 //

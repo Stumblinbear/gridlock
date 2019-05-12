@@ -22,7 +22,8 @@ type Host struct {
 // forward the request to the remote machine's platform, then start up the
 // streaming system.
 type Launcher struct {
-	Name string `json:"name"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 
 	// If the launcher is required on both systems
 	Require bool `json:"require"`

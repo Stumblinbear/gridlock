@@ -21,7 +21,10 @@ func OnStart(gapi *api.API) error {
 	// Only add this launcher if parsec is installed
 	gapi.AddLauncher("parsec", api.Launcher{
 		Name: "Parsec",
+		Description: "Launch game and stream it through Parsec",
+		
 		Require: true,
+
 		CanStart: func(gq api.GameQuery) bool {
 			// Ensure parsec exists on the current system
 			// If this launcher was displayed for a remote system, we already know that it has it installed

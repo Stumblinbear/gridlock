@@ -11,7 +11,7 @@ type API struct {
 	AddPlatform func(Platform)
 
 	// Add a game to the system
-	AddGame func(GameInstance)
+	AddGame func(Game)
 
 	// A launcher tells the system how to start a game
 	AddLauncher func(Launcher)

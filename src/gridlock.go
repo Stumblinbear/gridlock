@@ -31,8 +31,6 @@ type Store struct {
 	// The current machine is always named "self"
 	Hosts map[string]*api.Host `json:"hosts"`
 
-	Platforms map[string]*api.Platform `json:"platforms"`
-
 	Metadata map[string]*api.Metadata `json:"metadata"`
 }
 
@@ -86,7 +84,6 @@ func NewGridlock() *Gridlock {
 			Hosts: map[string]*api.Host{
 				"self": &self,
 			},
-			Platforms: map[string]*api.Platform{},
 			Metadata: map[string]*api.Metadata{},
 		},
 	}
@@ -96,7 +93,10 @@ func NewGridlock() *Gridlock {
 			self.Launchers[IDify(l.Name)] = l
 		},
 		AddPlatform: func(p api.Platform) {
-			self.Platforms[IDify(p.Name)] = p
+			id := IDify(p.Name)
+
+			self.Platforms[id] = map[string]api.GameInstance{}
+			g.Store.Platforms[id] = &p
 		},
 	}
 

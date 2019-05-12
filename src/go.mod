@@ -4,7 +4,7 @@ go 1.12
 
 require (
 	github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705 // indirect
-	github.com/Stumblinbear/gridlock/api v0.0.0-20190512015804-ad072fa28c50
+	github.com/Stumblinbear/gridlock/api v0.0.0-20190512020412-cf23c038be7f
 	github.com/c2h5oh/datasize v0.0.0-20171227191756-4eba002a5eae
 	github.com/denisbrodbeck/machineid v1.0.1
 	github.com/go-ole/go-ole v1.2.4 // indirect

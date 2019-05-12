@@ -22,6 +22,8 @@ func OnStart(gapi *api.API) error {
 		Name: "Steam",
 	})
 
+	//gapi.AddGame()
+
 	gapi.AddMetadataResolver(api.MetadataResolver{
 		Name: "Steam",
 		Resolve: func(name string) api.Metadata {

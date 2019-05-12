@@ -11,7 +11,7 @@ type Host struct {
 	// The key of this map is the platform ID that launches this game.
 	//
 	// For example: steam, uplay, ps4, nintendo64, etc
-	Libraries map[string](map[string]GameInstance) `json:"libraries"`
+	Platforms map[string](map[string]GameInstance) `json:"platforms"`
 
 	// Map of launchers supported by this host
 	Launchers map[string]Launcher `json:"launchers"`

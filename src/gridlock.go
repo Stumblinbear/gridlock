@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"encoding/json"
+	"strings"
 
 	"github.com/c2h5oh/datasize"
 	"github.com/gorilla/mux"
@@ -68,7 +69,7 @@ func NewGridlock() *Gridlock {
 		Remote: false,
 		System: system,
 
-		Libraries: map[string](map[string]api.GameInstance) {
+		Platforms: map[string](map[string]api.GameInstance) {
 			"steam": map[string]api.GameInstance{
 				"for-honor": api.GameInstance{},
 			},
@@ -91,12 +92,15 @@ func NewGridlock() *Gridlock {
 	}
 
 	g.api = api.API{
-		AddLauncher: func(name string, l api.Launcher) {
-			self.Launchers[name] = l
+		AddLauncher: func(l api.Launcher) {
+			self.Launchers[IDify(l.Name)] = l
+		},
+		AddPlatform: func(p api.Platform) {
+			self.Platforms[IDify(p.Name)] = p
 		},
 	}
 
-	g.api.AddLauncher("direct", api.Launcher{
+	g.api.AddLauncher(api.Launcher{
 		Name: "Direct",
 		Description: "Launch the game on this machine.",
 
@@ -110,6 +114,14 @@ func NewGridlock() *Gridlock {
 	})
 
 	return &g
+}
+
+func IDify(name string) string {
+	name = strings.ToLower(name)
+
+	name = strings.Replace(name, " ", "-", -1)
+
+	return name
 }
 
 type Callback func(*http.Request) (int, interface{})

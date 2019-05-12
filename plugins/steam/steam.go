@@ -23,7 +23,12 @@ func OnStart(gapi *api.API) error {
 		Description: "Your Steam library",
 	})
 
-	//gapi.AddGame()
+	gapi.AddGame(api.Game{
+		Platform: "Steam",
+		Name: "For Honor",
+		Installed: true,
+		PlayCount: 9,
+	})
 
 	gapi.AddMetadataResolver(api.MetadataResolver{
 		Name: "Steam",

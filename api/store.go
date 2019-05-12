@@ -32,14 +32,14 @@ type Platform struct {
 	Description string `json:"description"`
 
 	// List of games available on this platform
-	Games map[string]GameInstance `json:"games"`
+	Games map[string]Game `json:"games"`
 
 	// Takes in a game instance and uses it to start the game immediately.
 	// This one doesn't understand the concept of
-	SpawnGame func(GameInstance) error `json:"-"`
+	SpawnGame func(Game) error `json:"-"`
 }
 
-type GameInstance struct {
+type Game struct {
 	// Used to categorize the game into the system, but is discarded afterwards
 	Platform string `json:"-"`
 	Name     string `json:"-"`

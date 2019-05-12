@@ -34,7 +34,7 @@ type Platform struct {
 
 	// Takes in a game instance and uses it to start the game immediately.
 	// This one doesn't understand the concept of
-	SpawnGame func(GameInstance) error
+	SpawnGame func(GameInstance) error `json:"-"`
 }
 
 type GameInstance struct {

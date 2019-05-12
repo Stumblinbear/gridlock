@@ -67,12 +67,8 @@ func NewGridlock() *Gridlock {
 		Remote: false,
 		System: system,
 
-		Platforms: map[string](map[string]api.GameInstance) {
-			"steam": map[string]api.GameInstance{
-				"for-honor": api.GameInstance{},
-			},
-		},
-		Launchers: make(map[string]api.Launcher),
+		Platforms: map[string]api.Platform{},
+		Launchers: map[string]api.Launcher{},
 	}
 
 	g := Gridlock{
@@ -93,10 +89,7 @@ func NewGridlock() *Gridlock {
 			self.Launchers[IDify(l.Name)] = l
 		},
 		AddPlatform: func(p api.Platform) {
-			id := IDify(p.Name)
-
-			self.Platforms[id] = map[string]api.GameInstance{}
-			g.Store.Platforms[id] = &p
+			self.Platforms[IDify(p.Name)] = p
 		},
 	}
 

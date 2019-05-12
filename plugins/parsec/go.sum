@@ -22,3 +22,5 @@ github.com/Stumblinbear/gridlock/api v0.0.0-20190512015804-ad072fa28c50 h1:SqJxF
 github.com/Stumblinbear/gridlock/api v0.0.0-20190512015804-ad072fa28c50/go.mod h1:UPK1halMERa/SQVcQC4EG9//iSovnayVSnrgn97cYz8=
 github.com/Stumblinbear/gridlock/api v0.0.0-20190512020412-cf23c038be7f h1:2TvntpvqTq73Zu2koL4tHpDF/+GulSusXu84XdJBX6o=
 github.com/Stumblinbear/gridlock/api v0.0.0-20190512020412-cf23c038be7f/go.mod h1:UPK1halMERa/SQVcQC4EG9//iSovnayVSnrgn97cYz8=
+github.com/Stumblinbear/gridlock/api v0.0.0-20190512020803-7915e9a6a872 h1:Yte5A1Buq2zcrZqV5RZM7E9RSp3BhBJVYbz5VwLpUEE=
+github.com/Stumblinbear/gridlock/api v0.0.0-20190512020803-7915e9a6a872/go.mod h1:UPK1halMERa/SQVcQC4EG9//iSovnayVSnrgn97cYz8=

@@ -76,8 +76,8 @@ func NewGridlock() *Gridlock {
 					Remote: false,
 					System: system,
 
-					Launchers: make(map[string]api.Launcher),
 					Libraries: make(map[string](map[string]api.GameInstance)),
+					Launchers: []string,
 				},
 			},
 		},

@@ -16,6 +16,8 @@ type Host struct {
 	// List of launchers supported by this host
 	//
 	// Note: Currently, both hosts MUST have the same launcher plugin installed
+	//         I could fix this by making this map hold the Launcher struct, however
+	//         I turned it into this due to func encoding issues.
 	Launchers []string `json:"launchers"`
 }
 

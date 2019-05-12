@@ -20,7 +20,6 @@ type Gridlock struct {
 	pm plugin.Manager
 	api api.API // Should I create an API struct for each plugin?
 
-	launchers map[string]*api.Launcher
 	Store Store
 
 	// Sends notifications out to anyone connected to the websocket
@@ -74,7 +73,7 @@ func NewGridlock() *Gridlock {
 				"for-honor": api.GameInstance{},
 			},
 		},
-		Launchers: []string{},
+		Launchers: make(map[string]api.Launcher),
 	}
 
 	g := Gridlock{
@@ -82,7 +81,6 @@ func NewGridlock() *Gridlock {
 
 		pm: plugin.NewManager(),
 
-		launchers: make(map[string]*api.Launcher),
 		Store: Store{
 			Hosts: map[string]*api.Host{
 				"self": &self,
@@ -94,8 +92,7 @@ func NewGridlock() *Gridlock {
 
 	g.api = api.API{
 		AddLauncher: func(name string, l api.Launcher) {
-			g.launchers[name] = &l
-			self.Launchers = append(self.Launchers, name)
+			self.Launchers[name] = l
 		},
 	}
 

@@ -23,6 +23,14 @@ func RegisterRoutes(g *Gridlock) {
 	// Register the websocket server
 	http.HandleFunc("/ws", handleWebSocket)
 
+	g.AddEndpoint("v1/launchers", func(r *http.Request) (int, interface{}) {
+		if r.Method != "GET" {
+			return 405, INVALID_METHOD
+		}
+
+		return 200, g.launchers
+	})
+
 	g.AddEndpoint("v1/store", func(r *http.Request) (int, interface{}) {
 		if r.Method != "GET" {
 			return 405, INVALID_METHOD

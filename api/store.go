@@ -13,12 +13,8 @@ type Host struct {
 	// For example: steam, uplay, ps4, nintendo64, etc
 	Libraries map[string](map[string]GameInstance) `json:"libraries"`
 
-	// List of launchers supported by this host
-	//
-	// Note: Currently, both hosts MUST have the same launcher plugin installed
-	//         I could fix this by making this map hold the Launcher struct, however
-	//         I turned it into this due to func encoding issues.
-	Launchers []string `json:"launchers"`
+	// Map of launchers supported by this host
+	Launchers map[string]Launcher `json:"launchers"`
 }
 
 // A launcher is responsible for the entire process of setting up a game.
@@ -27,6 +23,9 @@ type Host struct {
 // streaming system.
 type Launcher struct {
 	Name string `json:"name"`
+
+	// If the launcher is required on both systems
+	Require bool `json:"require"`
 
 	CanStart func(GameQuery) bool `json:"-"`
 

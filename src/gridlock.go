@@ -89,7 +89,12 @@ func NewGridlock() *Gridlock {
 			self.Launchers[IDify(l.Name)] = l
 		},
 		AddPlatform: func(p api.Platform) {
+			p.Games = map[string]api.Game{}
+
 			self.Platforms[IDify(p.Name)] = p
+		},
+		AddGame: func(g api.Game) {
+			self.Platforms[IDify(g.Platform)].Games[IDify(g.Name)] = g
 		},
 	}
 

@@ -19,5 +19,5 @@ Plugins add functionality to the base systems. Currently, plugins only fire an O
 2. HTTP API
 3. Websocket API
 4. First library viewer
-5. Parsec/Moonlight/etc support (using plugins)
-6. Themes
+6. Parsec/Moonlight/etc support (using plugins)
+7. Themes and skins

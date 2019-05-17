@@ -27,6 +27,7 @@ func OnStart(gapi *api.API) error {
 		Platform: "Steam",
 		Name: "For Honor",
 		Installed: true,
+		Directory: "/something/steam/game.sh",
 		PlayCount: 9,
 	})
 

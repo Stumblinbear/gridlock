@@ -25,10 +25,8 @@ type Host struct {
 // For example: PC, Steam, Xbox, PlayStation 4, Nintendo 64, etc
 type Platform struct {
 	// URL to an icon for the platform
-	Icon string `json:"icon"`
-
-	Name string `json:"name"`
-
+	Icon        string `json:"icon"`
+	Name        string `json:"name"`
 	Description string `json:"description"`
 
 	// List of games available on this platform
@@ -65,6 +63,8 @@ type Game struct {
 // forward the request to the remote machine's platform, then start up the
 // streaming system.
 type Launcher struct {
+	// URL to an icon for the launcher
+	Icon        string `json:"icon"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 
